@@ -1,15 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white py-8">
+    <footer className="py-6 border-t border-gray-200">
       <div className="container mx-auto px-4 text-center">
-        <p>&copy; 2025 Your Company Name. All rights reserved.</p>
-        <ul className="flex justify-center mt-4">
-          <li className="mx-4"><a href="#" className="hover:text-gray-300">About</a></li>
-          <li className="mx-4"><a href="#" className="hover:text-gray-300">Contact</a></li>
-          <li className="mx-4"><a href="#" className="hover:text-gray-300">Privacy Policy</a></li>
-        </ul>
+        <p className="text-gray-600">© 2025 CodeInsight. All rights reserved.</p>
       </div>
     </footer>
   );
