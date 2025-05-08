@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { translateCode } from '../utils/codeTranslator';
 
 function DocumentationGenerator() {
   const [codeInput, setCodeInput] = useState('');
@@ -7,29 +8,27 @@ function DocumentationGenerator() {
 
   const generateDocumentation = () => {
     if (!codeInput.trim()) return;
-    
+
     setIsGenerating(true);
-    
-    // Simulate documentation generation
+
     setTimeout(() => {
-      // Simple parser to extract JSDoc comments
-      const lines = codeInput.split('\n');
+      const translatedCode = translateCode(codeInput);
+      const lines = translatedCode.split('\n');
       const docs = [];
       let currentDoc = [];
       let isInComment = false;
       let targetName = '';
-      
+
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i].trim();
-        
+
         if (line.startsWith('/**')) {
           isInComment = true;
           currentDoc = [line];
         } else if (isInComment && line.includes('*/')) {
           isInComment = false;
           currentDoc.push(line);
-          
-          // Look ahead for function or class name
+
           for (let j = i + 1; j < Math.min(lines.length, i + 3); j++) {
             const nextLine = lines[j].trim();
             if (nextLine.includes('function') || nextLine.includes('class') || nextLine.includes('const') || nextLine.includes('let')) {
@@ -37,18 +36,18 @@ function DocumentationGenerator() {
               break;
             }
           }
-          
+
           docs.push({
             comment: currentDoc.join('\n'),
             target: targetName
           });
-          
+
           targetName = '';
         } else if (isInComment) {
           currentDoc.push(line);
         }
       }
-      
+
       setDocumentation(docs);
       setIsGenerating(false);
     }, 1500);
@@ -56,7 +55,7 @@ function DocumentationGenerator() {
 
   const renderDocumentation = () => {
     if (!documentation) return null;
-    
+
     if (documentation.length === 0) {
       return (
         <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
@@ -64,11 +63,11 @@ function DocumentationGenerator() {
         </div>
       );
     }
-    
+
     return (
       <div className="space-y-6">
         <h3 className="text-xl font-semibold">Generated Documentation</h3>
-        
+
         {documentation.map((doc, index) => (
           <div key={index} className="bg-white p-4 rounded-lg shadow border border-gray-200">
             <div className="bg-gray-50 p-3 rounded mb-3">
@@ -89,13 +88,13 @@ function DocumentationGenerator() {
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold mb-8 text-center">Documentation Generator</h2>
-        
+
         <div className="mb-6 text-center">
           <p className="text-gray-600 max-w-2xl mx-auto">
             Extract documentation from code comments to create readable documentation for your team.
           </p>
         </div>
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div>
             <div className="mb-4">
@@ -118,7 +117,7 @@ function add(a, b) {
 }"
               ></textarea>
             </div>
-            
+
             <button
               onClick={generateDocumentation}
               disabled={isGenerating || !codeInput.trim()}
@@ -127,7 +126,7 @@ function add(a, b) {
               {isGenerating ? 'Generating...' : 'Generate Documentation'}
             </button>
           </div>
-          
+
           <div>
             {isGenerating ? (
               <div className="h-full flex items-center justify-center">

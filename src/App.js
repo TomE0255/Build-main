@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import HeroSection from './components/HeroSection';
+import CodeTranslatorDemo from './components/CodeTranslatorDemo';
 
 // Lazy load components
 const FeaturesSection = lazy(() => import('./components/FeaturesSection'));
@@ -69,6 +70,13 @@ function App() {
         <Suspense fallback={<div className="py-4 text-center">Loading footer...</div>}>
           <Footer />
         </Suspense>
+
+        {/* Code Translator Demo Component */}
+        <div className="bg-gray-100 py-8">
+          <div className="container mx-auto px-4">
+            <CodeTranslatorDemo />
+          </div>
+        </div>
       </div>
     </Router>
   );
